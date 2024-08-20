@@ -109,3 +109,5 @@ El frontend es una aplicación web sencilla construida con HTML, CSS, y JavaScri
         F -->|Devuelve| G[Frontend]
         G -->|Muestra| H[Usuario]
 ```
+
+Realizado por Andrés Meléndez MM102120
