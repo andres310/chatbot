@@ -62,14 +62,14 @@ El backend del proyecto está desarrollado con Flask y utiliza SpaCy para el pro
 
 Ejemplo de solicitud:
 
-    ```bash
+```bash
     curl -X POST http://127.0.0.1:5000/diagnostico -H "Content-Type: application/json" -d '{"sintomas": "Tengo dolor abdominal"}'
-    ```
+```
 
 
 Ejemplo de respuesta:
 
-    ```json
+```json
     {
         "diagnosticos": [
             {
@@ -79,7 +79,7 @@ Ejemplo de respuesta:
             }
         ]
     }
-    ```
+```
 
 
 ## Descripción del Frontend
@@ -100,12 +100,12 @@ El frontend es una aplicación web sencilla construida con HTML, CSS, y JavaScri
 ## Flujograma
 
 ```mermaid
-flowchart TD
-    A[Usuario] -->|Interacción| B[Frontend (HTML, CSS, JS)]
-    B -->|Envía síntomas| C[API Flask]
-    C -->|Procesa texto| D[SpaCy]
-    D -->|Consulta| E[Base de conocimientos (CSV)]
-    E -->|Genera| F[Diagnóstico y Recomendación]
-    F -->|Devuelve| G[Frontend]
-    G -->|Muestra| H[Usuario]
+    flowchart TD
+        A[Usuario] -->|Interacción| B[Frontend]
+        B -->|Envía síntomas| C[API Flask]
+        C -->|Procesa texto| D[SpaCy]
+        D -->|Consulta| E[Base de conocimientos]
+        E -->|Genera| F[Diagnóstico y Recomendación]
+        F -->|Devuelve| G[Frontend]
+        G -->|Muestra| H[Usuario]
 ```
