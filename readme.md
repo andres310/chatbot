@@ -28,6 +28,7 @@ Este proyecto es un Chatbot de Atención Médica desarrollado con **Python** y *
    ```bash
    git clone https://github.com/andres310/chatbot-atencion-medica.git
    cd chatbot-atencion-medica
+   ```
 
 2. **Instala las dependencias del backend**
 
@@ -35,6 +36,7 @@ Este proyecto es un Chatbot de Atención Médica desarrollado con **Python** y *
     pip install -r requirements.txt
     pip install flask_cors
     python -m spacy download es_core_news_sm
+    ```
 
 ## Uso
 
@@ -42,6 +44,7 @@ Este proyecto es un Chatbot de Atención Médica desarrollado con **Python** y *
 
     ```bash
     python app.py
+    ```
 
 El servidor estará disponible en http://127.0.0.1:5000.
 
@@ -61,6 +64,7 @@ Ejemplo de solicitud:
 
     ```bash
     curl -X POST http://127.0.0.1:5000/diagnostico -H "Content-Type: application/json" -d '{"sintomas": "Tengo dolor abdominal"}'
+    ```
 
 
 Ejemplo de respuesta:
@@ -75,6 +79,7 @@ Ejemplo de respuesta:
             }
         ]
     }
+    ```
 
 
 ## Descripción del Frontend
@@ -96,11 +101,11 @@ El frontend es una aplicación web sencilla construida con HTML, CSS, y JavaScri
 
 ```mermaid
 flowchart TD
-    A[Usuario] --> B[Frontend (HTML, CSS, JS)]
-    B --> C[Envío de síntomas al Backend]
-    C --> D[API Flask]
-    D --> E[Procesamiento de texto con SpaCy]
-    E --> F[Consulta a la base de conocimientos]
-    F --> G[Generar diagnóstico y recomendación]
-    G --> H[Enviar respuesta al Frontend]
-    H --> I[Mostrar diagnóstico al usuario]
+    A[Usuario] -->|Interacción| B[Frontend (HTML, CSS, JS)]
+    B -->|Envía síntomas| C[API Flask]
+    C -->|Procesa texto| D[SpaCy]
+    D -->|Consulta| E[Base de conocimientos (CSV)]
+    E -->|Genera| F[Diagnóstico y Recomendación]
+    F -->|Devuelve| G[Frontend]
+    G -->|Muestra| H[Usuario]
+```
