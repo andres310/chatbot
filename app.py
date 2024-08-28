@@ -4,6 +4,8 @@ import spacy
 import pandas as pd
 from nltk.corpus import wordnet
 from spacy.matcher import PhraseMatcher
+import csv
+import os
 
 # Inicializar la aplicación Flask
 app = Flask(__name__)
@@ -68,28 +70,27 @@ def diagnosticar(sintomas_usuario):
                 })
     
     return diagnosticos_posibles
-"""def diagnosticar(sintomas_usuario):
-    diagnosticos_posibles = []
-    diagnosticos_vistos = set()  # Usamos un set para evitar duplicados
-    
-    for _, row in data.iterrows():
-        sintomas_base = row['sintomas'].split(',')
-        coincidencias = [sintoma for sintoma in sintomas_usuario if sintoma in sintomas_base]
-        
-        if len(coincidencias) > 0:
-            # Crear una clave única para evitar duplicados
-            clave_diagnostico = (row['diagnostico'], row['recomendacion'])
-            
-            # Si el diagnóstico no ha sido agregado aún, añadirlo
-            if clave_diagnostico not in diagnosticos_vistos:
-                diagnosticos_vistos.add(clave_diagnostico)
-                diagnosticos_posibles.append({
-                    "diagnostico": row['diagnostico'],
-                    "recomendacion": row['recomendacion'],
-                    "sintomas_detectados": coincidencias
-                })
-                
-    return diagnosticos_posibles"""
+
+
+def guardar_interaccion(sintomas, diagnosticos):
+    file_exists = os.path.isfile('interacciones.csv')
+    with open('interacciones.csv', mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(['sintomas', 'diagnosticos', 'recomendaciones', 'sintomas_detectados'])  # Escribir encabezados
+        diagnosticos_detectados = []
+        recomendaciones_detectadas = []
+        sintomas_detectados = []
+        for diag in diagnosticos:
+            diagnosticos_detectados.append(diag['diagnostico'])
+            recomendaciones_detectadas = diag['recomendacion']
+            sintomas_detectados = diag['sintomas_detectados']
+        writer.writerow([
+            sintomas, # Esto es el input del usuario
+            diagnosticos_detectados,  # Unir elementos del array con punto y coma
+            recomendaciones_detectadas,
+            sintomas_detectados
+        ])
 
 # Ruta para manejar solicitudes POST para diagnóstico
 @app.route('/diagnostico', methods=['POST'])
@@ -97,8 +98,10 @@ def obtener_diagnostico():
     datos = request.get_json()  # Obtener los datos en formato JSON
     sintomas = procesar_texto(datos['sintomas'])  # Procesar los síntomas enviados
     diagnosticos = diagnosticar(sintomas)  # Obtener posibles diagnósticos
-    
+
     if diagnosticos:
+        # Guardar la interacción en un CSV
+        guardar_interaccion(sintomas, diagnosticos)
         return jsonify({
             "diagnosticos": diagnosticos
         }), 200
