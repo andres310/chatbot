@@ -1,4 +1,4 @@
-document.getElementById('send-button').addEventListener('click', function() {
+document.getElementById('send-button').addEventListener('click', () => {
     const userInput = document.getElementById('user-input').value;
     if (userInput.trim() === '') {
         return; // No enviar mensajes vacíos
@@ -33,7 +33,7 @@ document.getElementById('send-button').addEventListener('click', function() {
     });
 });
 
-function addMessageToChatLog(sender, message) {
+const addMessageToChatLog = (sender, message) => {
     const chatLog = document.getElementById('chat-log');
     const messageElement = document.createElement('div');
     messageElement.textContent = `${sender}: ${message}`;
